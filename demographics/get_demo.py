@@ -3,6 +3,9 @@ from sqlalchemy import create_engine
 import seaborn as sns
 import matplotlib.pyplot as plt
 
+# DATA
+# https://data.cccnewyork.org/data/table/66/median-incomes#66/107/62/a/a
+
 # read data and get rid of non zip code entries
 data = pd.read_csv('demographics/incomes.csv')[3900:]
 data["Location"] = data["Location"].apply(lambda x: x.replace("Zip Code ", ""))
@@ -30,5 +33,5 @@ print(data.describe())
 #plt.show()
 
 # Save to SQL database
-disk_engine = create_engine('sqlite:///final_project.db')
+disk_engine = create_engine('sqlite:///database/final.db')
 data.to_sql('incomes', disk_engine, if_exists='replace', index=False)

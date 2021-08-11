@@ -29,25 +29,27 @@ def paired_ttest(values_a, values_b):
     return tstats, pvalue
 
 if __name__ == "__main__":
-    sql_path = 'final_project.db'
+    #sql_path = 'final_project.db'
+    sql_path = 'database/final.db'
     conn = sqlite3.connect(sql_path)
 
     # dataset = ... # Some import of the data frame
     #statement = 'SELECT COVID_CASE_PERCENT, PERCENT_RIDERSHIP FROM table_name'
-    statement = 'SELECT CASERATE, PER_DIF FROM proccessed_table'
+    #statement = 'SELECT CASERATE, PER_DIF FROM proccessed_table'
+    statement = 'SELECT RIDERSHIP1, RIDERSHIP2 FROM stuff'
     dataset = pd.read_sql(statement, conn)
     conn.close()
 
-    data = dataset[['CASERATE', 'PER_DIF']]
+    data = dataset[['RIDERSHIP1', 'RIDERSHIP2']]
     #data = drop_incomplete_rows(data)
 
     train_df, test_df = train_test_split(data)
 
-    cases_train = train_df[['CASERATE']]
-    ridership_train = train_df[['PER_DIF']]
+    cases_train = train_df[['RIDERSHIP1']]
+    ridership_train = train_df[['RIDERSHIP2']]
 
-    cases_test = test_df[['CASERATE']]
-    ridership_test = test_df[['PER_DIF']]
+    cases_test = test_df[['RIDERSHIP1']]
+    ridership_test = test_df[['RIDERSHIP2']]
 
     #plt.scatter(cases, ridership, alpha=0.2);
     #'o', markersize=1);

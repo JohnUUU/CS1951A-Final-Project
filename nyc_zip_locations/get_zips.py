@@ -83,3 +83,11 @@ SELECT c.ZIP, COVID_CASE_PERCENT, PER_DIF, c.MED_INCOME
 from demo_covid_table as c JOIN demo_ridership_table as r ON c.ZIP = r.ZIP
 GROUP BY c.ZIP
 """
+
+
+"""
+--CREATE TABLE stuff AS
+SELECT rz2."448" as RIDERSHIP1, rz2.dtidx as  WEEK_START1, rz1."448" as RIDERSHIP2, rz1.dtidx as  WEEK_START2
+from new_ridership as rz1 JOIN new_ridership as rz2 
+WHERE (julianday(datetime(rz1.dtidx, '-2 year')) - julianday(rz2.dtidx)) BETWEEN -5 AND 5
+"""

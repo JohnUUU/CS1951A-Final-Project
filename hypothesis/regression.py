@@ -93,10 +93,10 @@ def main():
     # TODO: Load the data from the bike-sharing.csv file into a Pandas DataFrame. Do not change
     # the variable name /data/
 
-    sql_path = 'final_project.db'
+    sql_path = 'database/final.db'
     conn = sqlite3.connect(sql_path)
 
-    statement = 'SELECT COVID_CASE_PERCENT, MED_INCOME FROM demo_covid_table'
+    statement = 'SELECT RIDERSHIP, MED_INCOME FROM reg_stuff4'
     data = pd.read_sql(statement, conn)
     conn.close()
     
@@ -106,7 +106,7 @@ def main():
 
     # TODO: Modify the list IND_VAR_NAMES to select the independent variables you want to perform
     # a linear regression on
-    IND_VAR_NAMES = ['COVID_CASE_PERCENT']
+    IND_VAR_NAMES = ['RIDERSHIP']
 
     # Select the dependent variable name DEP_VAR_NAME
     DEP_VAR_NAME = "MED_INCOME"
@@ -114,6 +114,11 @@ def main():
     # TODO: Using the imported train_test_split function (from util.py), create the train_df and
     # test_df that will be passed into regression.
     train_df, test_df = train_test_split(data)# None, None
+    train_df = train_df.dropna()
+    test_df = test_df.dropna()
+
+    train_df = train_df.astype(float)
+    test_df = test_df.astype(float)
 
     # TODO: Call regression and perform other calculations as you deem necessary to answer the
     # questions posed for this section.
@@ -128,3 +133,19 @@ if __name__ == "__main__":
     np.random.seed(RANDOM_SEED)
     random.seed(RANDOM_SEED)
     main()
+
+
+
+
+"""
+--CREATE TABLE stuff AS
+--SELECT rz2."448" as RIDERSHIP1, rz2.dtidx as  WEEK_START1, rz1."448" as RIDERSHIP2, rz1.dtidx as  WEEK_START2
+--from new_ridership as rz1 JOIN new_ridership as rz2 
+--WHERE (julianday(datetime(rz1.dtidx, '-2 year')) - julianday(rz2.dtidx)) BETWEEN -5 AND 5
+
+--CREATE TABLE merge as
+--SELECT * from melted_table JOIN complexes ON melted_table.variable = complexes."Complex ID"
+
+CREATE TABLE reg_stuff as 
+SELECT MED_INCOME, value as RIDERSHIP from merge JOIN incomes ON merge.modzcta = incomes.ZIP
+"""
